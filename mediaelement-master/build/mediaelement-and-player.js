@@ -5036,7 +5036,7 @@ if (typeof jQuery != 'undefined') {
 						//console.log("Duration " + duration);
 						
 						if ((track.entries.text[i]).search("sub") < 0){
-							theOldText = (track.entries.text[i]).split(/\t\s\n\-" "/);
+							theOldText = (track.entries.text[i]).split(" ");
 							wcounter += theOldText.length;
 							//console.log("wcounter: " + wcounter);
 										 for (index = 0; index < theOldText.length; index++) {
