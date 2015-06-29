@@ -27,7 +27,7 @@ var iid = 0;
 var counter = 0;
 var wcounter = 0;
 var csvData = new Array();
-csvData.push('"SubNum","Word","WordId","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
+csvData.push('"SubNum","Word","WordId","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
 
 // version number
 mejs.version = '2.17.0'; 
@@ -5091,6 +5091,7 @@ if (typeof jQuery != 'undefined') {
 											  "subnum":i,
 											  "word": thePosWordArray[x],
 											  "wordid": thePosIndexArray[x],
+											  "wordshownat": track.entries.times[i].start,
 											  "starttime": startTime,
 											  "stoptime": startTime+duration,
 											  "top": $(thePosIndexArray[x]).offset().top,
@@ -5127,7 +5128,7 @@ if (typeof jQuery != 'undefined') {
 					  if (!csvData[index]){
 						  //console.log(index);
 						  //console.log("times2");
-						  csvData.push('"' + item.subnum + '","' + item.word + '","' + item.wordid + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
+						  csvData.push('"' + item.subnum + '","' + item.word + '","' + item.wordid + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
 				  		  //console.log(csvData[index]);
 						  //console.log(index + ","+item.wordid+","+ item.starttime + '","' + item.stoptime);
 					  }
