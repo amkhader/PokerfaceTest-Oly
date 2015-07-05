@@ -27,7 +27,7 @@ var iid = 0;
 var counter = 0;
 var wcounter = 0;
 var csvData = new Array();
-csvData.push('"SubNum","Word","WordId","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
+csvData.push('"SubNum","WordAltered","WordId", "WordUnaltered", "WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
 
 // version number
 mejs.version = '2.17.0'; 
@@ -5007,6 +5007,7 @@ if (typeof jQuery != 'undefined') {
 				thePosIndexArray = [],
 				thePosWordArray = [],
 				thePosArray = [],
+				eyeTrackerWords = [],
 				timesArray = [],
 				today = new Date(),
 				startTime,
@@ -5053,6 +5054,7 @@ if (typeof jQuery != 'undefined') {
 												  var tempText = theOldText[index];
 												  theNewText[index] = '<div id="sub' + i + 'in' + index + '" class="noChange">' + tempText + '</div>';
 												  thePosWordArray[p] = theNewText[index];
+												  eyeTrackerWords[p] = theOldText[index];
 												  //console.log("This is it");
 												  
 												  //Store the unique indices in an array
@@ -5089,8 +5091,9 @@ if (typeof jQuery != 'undefined') {
 							newy = topInt + diffTop;
 							theFullArray[counter] = {
 											  "subnum":i,
-											  "word": thePosWordArray[x],
+											  "wordAltered": thePosWordArray[x],
 											  "wordid": thePosIndexArray[x],
+											  "wordUnaltered": eyeTrackerWords[x],
 											  "wordshownat": track.entries.times[i].start,
 											  "starttime": startTime,
 											  "stoptime": startTime+duration,
@@ -5128,7 +5131,7 @@ if (typeof jQuery != 'undefined') {
 					  if (!csvData[index]){
 						  //console.log(index);
 						  //console.log("times2");
-						  csvData.push('"' + item.subnum + '","' + item.word + '","' + item.wordid + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
+						  csvData.push('"' + item.subnum + '","' + item.wordAltered + '","' + item.wordid + '","' + item.wordUnaltered + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
 				  		  //console.log(csvData[index]);
 						  //console.log(index + ","+item.wordid+","+ item.starttime + '","' + item.stoptime);
 					  }
