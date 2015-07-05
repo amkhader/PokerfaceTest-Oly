@@ -27,7 +27,7 @@ var iid = 0;
 var counter = 0;
 var wcounter = 0;
 var csvData = new Array();
-csvData.push('"SubNum","WordAltered","WordId", "WordUnaltered", "WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
+csvData.push('"SubNum","WordAltered","WordId","WordUnaltered","AlteredClass", "WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
 
 // version number
 mejs.version = '2.17.0'; 
@@ -5008,6 +5008,7 @@ if (typeof jQuery != 'undefined') {
 				thePosWordArray = [],
 				thePosArray = [],
 				eyeTrackerWords = [],
+				alteredClasses = [],
 				timesArray = [],
 				today = new Date(),
 				startTime,
@@ -5052,9 +5053,19 @@ if (typeof jQuery != 'undefined') {
 							//console.log("wcounter: " + wcounter);
 										 for (index = 0; index < theOldText.length; index++) {
 												  var tempText = theOldText[index];
-												  theNewText[index] = '<div id="sub' + i + 'in' + index + '" class="noChange">' + tempText + '</div>';
+												  if (tempText.indexOf("<b") >= 0){
+													  tempText = $(tempText).contents().unwrap().text();
+													  console.log(tempText);
+													  theNewText[index] = '<div id="sub' + i + 'in' + index + '" class="noChange control">' + tempText + '</div>';  
+												   	  alteredClasses[p] = "control";
+												   }
+												   else {
+													  theNewText[index] = '<div id="sub' + i + 'in' + index + '" class="noChange">' + tempText + '</div>';  
+												   	  alteredClasses[p] = "noChange";
+												   }
+												  
 												  thePosWordArray[p] = theNewText[index];
-												  eyeTrackerWords[p] = theOldText[index];
+												  eyeTrackerWords[p] = tempText;
 												  //console.log("This is it");
 												  
 												  //Store the unique indices in an array
@@ -5094,6 +5105,7 @@ if (typeof jQuery != 'undefined') {
 											  "wordAltered": thePosWordArray[x],
 											  "wordid": thePosIndexArray[x],
 											  "wordUnaltered": eyeTrackerWords[x],
+											  "alteredClass": alteredClasses[x],
 											  "wordshownat": track.entries.times[i].start,
 											  "starttime": startTime,
 											  "stoptime": startTime+duration,
@@ -5131,7 +5143,7 @@ if (typeof jQuery != 'undefined') {
 					  if (!csvData[index]){
 						  //console.log(index);
 						  //console.log("times2");
-						  csvData.push('"' + item.subnum + '","' + item.wordAltered + '","' + item.wordid + '","' + item.wordUnaltered + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
+						  csvData.push('"' + item.subnum + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
 				  		  //console.log(csvData[index]);
 						  //console.log(index + ","+item.wordid+","+ item.starttime + '","' + item.stoptime);
 					  }
