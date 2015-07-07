@@ -965,8 +965,8 @@ mejs.HtmlMediaElementShim = {
 				htmlMediaElement.src = playback.url;
 				htmlMediaElement.addEventListener('click', function() {
 					htmlMediaElement.play();
-					vidStart = tday.getTime();
-					console.log("Just set VidStart from android fix");
+					//vidStart = tday.getTime();
+					//console.log("Just set VidStart from android fix");
 				}, false);
 			}
 		
@@ -2040,8 +2040,8 @@ if (typeof jQuery != 'undefined') {
 						action: function(player, media) {
 								if (media.paused || media.ended) {
 										player.play();
-										vidStart = tday.getTime();
-										console.log("Just set VidStart from keyboard");
+										//vidStart = tday.getTime();
+										//console.log("Just set VidStart from keyboard");
 								} else {
 										player.pause();
 								}
@@ -2562,8 +2562,8 @@ if (typeof jQuery != 'undefined') {
 							if (t.options.clickToPlayPause) {
 								if (t.media.paused) {
 									t.play();
-									vidStart = tday.getTime();
-									console.log("Just set VidStart from clicktoplaypause");
+									//vidStart = tday.getTime();
+									//console.log("Just set VidStart from clicktoplaypause");
 								} else {
 									t.pause();
 								}
@@ -2669,8 +2669,8 @@ if (typeof jQuery != 'undefined') {
 
 					if (t.options.loop) {
 						t.play();
-						vidStart = tday.getTime();
-						console.log("Just set VidStart from endedforall");
+						//vidStart = tday.getTime();
+						//console.log("Just set VidStart from endedforall");
 					} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
 						t.showControls();
 					}
@@ -2730,8 +2730,8 @@ if (typeof jQuery != 'undefined') {
 			// force autoplay for HTML5
 			if (autoplay && media.pluginType == 'native') {
 				t.play();
-				vidStart = tday.getTime();
-				console.log("Just set VidStart from force autoplay for html5");
+				//vidStart = tday.getTime();
+				//console.log("Just set VidStart from force autoplay for html5");
 			}
 
 
@@ -3000,7 +3000,7 @@ if (typeof jQuery != 'undefined') {
 						if (media.paused) {
 							media.play();
 							vidStart = tday.getTime();
-							console.log("Just set VidStart from buildLayers");
+							//console.log("Just set VidStart from buildLayers");
 						}
 					}
 				});
@@ -3150,51 +3150,6 @@ if (typeof jQuery != 'undefined') {
 			});
 		},
 		
-		findTrackIndices: function() {
-			
-			var 
-				
-				t = this,
-				i,
-				track = t.selectedTrack,
-				theOldText = [],
-				theNewText = [],
-				thePosIndexArray = [],
-				p = 0,
-				theFullArray = [],
-				startTime, 
-				endTime,
-				subText = "", 
-				counter = 0,
-				secDisplayed = 0,
-				theStartAndStop = "";
-
-			if (track !== null) {
-				console.log("We're here");
-				
-				for (i=0; i<track.entries.times.length; i++) {
-					
-						if ((track.entries.text[i]).search("sub") < 0){
-							theOldText = (track.entries.text[i]).split(" ");
-										 for (index = 0; index < theOldText.length; index++) {
-												  var tempText = theOldText[index];
-												  theNewText[index] = '<div id="sub' + i + 'in' + index + '" class="noChange">' + tempText + '</div>';
-												  
-												  //Store the unique indices in an array
-												  var posIndex = ('sub'+ i + 'in' + index);
-												  console.log('before pos: ' + posIndex);
-												  thePosIndexArray[p] = posIndex;
-												  console.log('after pos: ' + thePosIndexArray[p]);
-												  p++;
-										  }
-									track.entries.text[i] = theNewText.join(" ");	
-									//console.log(track.entries.text[i] + " | ");
-						}
-				}
-			}
-			return thePosIndexArray;
-		},
-		
 		changeSkin: function(className) {
 			this.container[0].className = 'mejs-container ' + className;
 			this.setPlayerSize(this.width, this.height);
@@ -3203,8 +3158,8 @@ if (typeof jQuery != 'undefined') {
 		play: function() {
 			this.load();
 			this.media.play();
-			vidStart = tday.getTime();
-			console.log("Just set VidStart from play");
+			//vidStart = tday.getTime();
+			//console.log("Just set VidStart from play");
 		},
 		pause: function() {
 			try {
@@ -3359,14 +3314,11 @@ if (typeof jQuery != 'undefined') {
 				 startLanguage: 'en',
 				 autoplay: true
 			});
-			$('#player1').ready(function(){;
+			//$('#player1').ready(function(){;
 				//$('#player1').data('mediaelementplayer').play();
-				console.log(tday.getTime());
-				//vidStart = tday.getTime();
-				//console.log(vidStart);
-			});
-			//var subPos = $('#player1').data('mediaelementplayer').findTrackIndices();
-//			console.log(subPos);
+				//console.log(tday.getTime());
+			//});
+			
 			
 		});
 	}
@@ -3399,8 +3351,8 @@ if (typeof jQuery != 'undefined') {
 				
 					if (media.paused) {
 						media.play();
-						vidStart = tday.getTime();
-						console.log("Just set VidStart from play/pause button");
+						//vidStart = tday.getTime();
+						//console.log("Just set VidStart from play/pause button");
 					} else {
 						media.pause();
 					}
@@ -3586,8 +3538,8 @@ if (typeof jQuery != 'undefined') {
 				var now = new Date();
 				if (now - lastKeyPressTime >= 1000) {
 					media.play();
-					vidStart = tday.getTime();
-					console.log("Just set VidStart from restartplayer");
+					//vidStart = tday.getTime();
+					//console.log("Just set VidStart from restartplayer");
 				}
 			};
 
@@ -5080,7 +5032,7 @@ if (typeof jQuery != 'undefined') {
 												  var tempText = theOldText[index];
 												  if (tempText.indexOf("<b") >= 0){
 													  tempText = $(tempText).contents().unwrap().text();
-													  console.log(tempText);
+													  //console.log(tempText);
 													  theNewText[index] = '<div id="sub' + i + 'in' + index + '" class="noChange control">' + tempText + '</div>';  
 												   	  alteredClasses[p] = "control";
 												   }
@@ -5161,7 +5113,7 @@ if (typeof jQuery != 'undefined') {
 			}
 			
 			if (counter == wcounter && doneFor[counter].done != 1) {
-				 console.log("times1 "+doneFor[counter].done);
+				 //console.log("times1 "+doneFor[counter].done);
 				  var link = document.createElement("a"); 
 				  var done = 0;
 				  theFullArray.forEach(function(item, index, array) {
@@ -5169,7 +5121,7 @@ if (typeof jQuery != 'undefined') {
 					  if (!csvData[index]){
 						  //console.log(index);
 						  //console.log("times2");
-						  csvData.push('"' + item.subnum + '","' + item.vidStart + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
+						  csvData.push('"' + item.subnum + '","' + item.vidStart + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '", "' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
 				  		  //console.log(csvData[index]);
 						  //console.log(index + ","+item.wordid+","+ item.starttime + '","' + item.stoptime);
 					  }
@@ -5308,8 +5260,8 @@ if (typeof jQuery != 'undefined') {
 				t.media.setCurrentTime( parseFloat( $(this).attr('rel') ) );
 				if (t.media.paused) {
 					t.media.play();
-					vidStart = tday.getTime();
-					console.log("Just set VidStart from chapters");
+					//vidStart = tday.getTime();
+					//console.log("Just set VidStart from chapters");
 				}
 			});
 
