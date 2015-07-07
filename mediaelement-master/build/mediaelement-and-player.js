@@ -26,8 +26,10 @@ doneFor[0] = {
 var iid = 0;
 var counter = 0;
 var wcounter = 0;
+var vidStart = 0;
+var tday = new Date();
 var csvData = new Array();
-csvData.push('"SubNum","WordAltered","WordId","WordUnaltered","AlteredClass","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
+csvData.push('"SubNum","VidStart","WordAltered","WordId","WordUnaltered","AlteredClass","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
 
 // version number
 mejs.version = '2.17.0'; 
@@ -550,6 +552,7 @@ mejs.PluginMediaElement.prototype = {
 
 	// HTML5 methods
 	play: function () {
+		vidStart = today.getTime();
 		if (this.pluginApi != null) {
 			if (this.pluginType == 'youtube' || this.pluginType == 'vimeo') {
 				this.pluginApi.playVideo();
@@ -962,6 +965,8 @@ mejs.HtmlMediaElementShim = {
 				htmlMediaElement.src = playback.url;
 				htmlMediaElement.addEventListener('click', function() {
 					htmlMediaElement.play();
+					vidStart = tday.getTime();
+					console.log("Just set VidStart from android fix");
 				}, false);
 			}
 		
@@ -2035,6 +2040,8 @@ if (typeof jQuery != 'undefined') {
 						action: function(player, media) {
 								if (media.paused || media.ended) {
 										player.play();
+										vidStart = tday.getTime();
+										console.log("Just set VidStart from keyboard");
 								} else {
 										player.pause();
 								}
@@ -2555,6 +2562,8 @@ if (typeof jQuery != 'undefined') {
 							if (t.options.clickToPlayPause) {
 								if (t.media.paused) {
 									t.play();
+									vidStart = tday.getTime();
+									console.log("Just set VidStart from clicktoplaypause");
 								} else {
 									t.pause();
 								}
@@ -2660,6 +2669,8 @@ if (typeof jQuery != 'undefined') {
 
 					if (t.options.loop) {
 						t.play();
+						vidStart = tday.getTime();
+						console.log("Just set VidStart from endedforall");
 					} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
 						t.showControls();
 					}
@@ -2719,6 +2730,8 @@ if (typeof jQuery != 'undefined') {
 			// force autoplay for HTML5
 			if (autoplay && media.pluginType == 'native') {
 				t.play();
+				vidStart = tday.getTime();
+				console.log("Just set VidStart from force autoplay for html5");
 			}
 
 
@@ -2986,6 +2999,8 @@ if (typeof jQuery != 'undefined') {
 					if (t.options.clickToPlayPause) {
 						if (media.paused) {
 							media.play();
+							vidStart = tday.getTime();
+							console.log("Just set VidStart from buildLayers");
 						}
 					}
 				});
@@ -3188,6 +3203,8 @@ if (typeof jQuery != 'undefined') {
 		play: function() {
 			this.load();
 			this.media.play();
+			vidStart = tday.getTime();
+			console.log("Just set VidStart from play");
 		},
 		pause: function() {
 			try {
@@ -3342,7 +3359,12 @@ if (typeof jQuery != 'undefined') {
 				 startLanguage: 'en',
 				 autoplay: true
 			});
-			
+			$('#player1').ready(function(){;
+				//$('#player1').data('mediaelementplayer').play();
+				console.log(tday.getTime());
+				//vidStart = tday.getTime();
+				//console.log(vidStart);
+			});
 			//var subPos = $('#player1').data('mediaelementplayer').findTrackIndices();
 //			console.log(subPos);
 			
@@ -3377,6 +3399,8 @@ if (typeof jQuery != 'undefined') {
 				
 					if (media.paused) {
 						media.play();
+						vidStart = tday.getTime();
+						console.log("Just set VidStart from play/pause button");
 					} else {
 						media.pause();
 					}
@@ -3562,6 +3586,8 @@ if (typeof jQuery != 'undefined') {
 				var now = new Date();
 				if (now - lastKeyPressTime >= 1000) {
 					media.play();
+					vidStart = tday.getTime();
+					console.log("Just set VidStart from restartplayer");
 				}
 			};
 
@@ -4801,6 +4827,7 @@ if (typeof jQuery != 'undefined') {
 			media.addEventListener('timeupdate',function(e) {
 				//player.editCaptions();
 				player.displayCaptions();
+				
 			}, false);
 
 			if (player.options.slidesSelector !== '') {
@@ -4999,7 +5026,6 @@ if (typeof jQuery != 'undefined') {
 
 		displayCaptions: function() {
 			
-			
 			var 
 				
 				theOldText = [],
@@ -5025,8 +5051,7 @@ if (typeof jQuery != 'undefined') {
 				diffRight = Xs - (Xw + diffLeft),
 				diffHeight = screen.height - $(window).height(),
 				sidebarDiff = window.outerHeight - window.innerHeight;
-				
-		
+			
 			if (typeof this.tracks == 'undefined')
 				return;
 
@@ -5102,6 +5127,7 @@ if (typeof jQuery != 'undefined') {
 							newy = topInt + diffTop;
 							theFullArray[counter] = {
 											  "subnum":i,
+											  "vidStart": vidStart,
 											  "wordAltered": thePosWordArray[x],
 											  "wordid": thePosIndexArray[x],
 											  "wordUnaltered": eyeTrackerWords[x],
@@ -5143,7 +5169,7 @@ if (typeof jQuery != 'undefined') {
 					  if (!csvData[index]){
 						  //console.log(index);
 						  //console.log("times2");
-						  csvData.push('"' + item.subnum + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
+						  csvData.push('"' + item.subnum + '","' + item.vidStart + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '","' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
 				  		  //console.log(csvData[index]);
 						  //console.log(index + ","+item.wordid+","+ item.starttime + '","' + item.stoptime);
 					  }
@@ -5282,6 +5308,8 @@ if (typeof jQuery != 'undefined') {
 				t.media.setCurrentTime( parseFloat( $(this).attr('rel') ) );
 				if (t.media.paused) {
 					t.media.play();
+					vidStart = tday.getTime();
+					console.log("Just set VidStart from chapters");
 				}
 			});
 
