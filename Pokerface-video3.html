@@ -36,6 +36,7 @@
  	 	display: inline;
  		padding: 3px 5px;
 		font-weight:normal!important;
+		line-height:60px;
  		/* background: rgba(20,20,20,.5);*/
 	 }
 
@@ -47,8 +48,8 @@
 <body class="container">
 <video id="player1" class="mejs-player" data-mejsoptions='{"alwaysShowControls": true}' controls="controls">
 
-	<source src="150EuroTEDxFirenze.mp4" type="video/mp4">
-	<track src="150EuroTEDxFirenze.srt" label="English captions" kind="subtitles" srclang="en" default>
+	<source src="NicolaTeslaTEDxBologna.mov" type="video/mp4">
+	<track src="NicolaTeslaTEDxBologna.srt" label="English captions" kind="subtitles" srclang="en" default>
 	<p>Your browser leaves much to be desired.</p>			
 </video>	 
 
@@ -57,7 +58,7 @@ $(document).ready(function(){
 	
 });
 $('#player1').ready(function(){;
-$('#player1').data('mediaelementplayer').play();
+	$('#player1').data('mediaelementplayer').play();
 });
 
 </script>

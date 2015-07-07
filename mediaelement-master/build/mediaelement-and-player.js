@@ -27,7 +27,7 @@ var iid = 0;
 var counter = 0;
 var wcounter = 0;
 var csvData = new Array();
-csvData.push('"SubNum","WordAltered","WordId","WordUnaltered","AlteredClass", "WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
+csvData.push('"SubNum","WordAltered","WordId","WordUnaltered","AlteredClass","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
 
 // version number
 mejs.version = '2.17.0'; 
