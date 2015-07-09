@@ -24,12 +24,15 @@ doneFor[0] = {
 										"done": 1000
 			 };
 var iid = 0;
-var counter = 0;
+var counterf = 0;
+var countert = 0;
+var stopTime;
+var lineLength = 0;
 var wcounter = 0;
 var vidStart = 0;
 var tday = new Date();
 var csvData = new Array();
-csvData.push('"SubNum","VidStart","WordAltered","WordId","WordUnaltered","AlteredClass","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
+csvData.push('"SubNum","WordAltered","WordId","WordUnaltered","AlteredClass","WordShownAt","Starttime","Stoptime","Top","Left","EyeTop","EyeLeft","WordWidth","WordHeight"');
 
 // version number
 mejs.version = '2.17.0'; 
@@ -4990,8 +4993,8 @@ if (typeof jQuery != 'undefined') {
 				timesArray = [],
 				today = new Date(),
 				startTime,
-				stopTime,
 				x = 0,
+				boo = 0,
 				p = 0,
 				Xs = screen.width,
 				Ys = screen.height,
@@ -5011,6 +5014,7 @@ if (typeof jQuery != 'undefined') {
 				t = this,
 				i,
 				track = t.selectedTrack; 
+				stopTime = today.getTime();
 				//console.log(track.entries.length);
 				
 			
@@ -5019,13 +5023,13 @@ if (typeof jQuery != 'undefined') {
 				for (i=0; i<track.entries.times.length; i++) {
 					
 					if (t.media.currentTime >= track.entries.times[i].start && t.media.currentTime <= track.entries.times[i].stop) {
-					
-						var duration = track.entries.times[i].stop - track.entries.times[i].start;
-						duration = duration*1000;
-						//console.log("Duration " + duration);
 						
 						if ((track.entries.text[i]).search("sub") < 0){
+							console.log("new");
+						
 							theOldText = (track.entries.text[i]).split(/,?\s+/);
+							lineLength = theOldText.length;
+							console.log("LineLength "+ lineLength);
 							wcounter += theOldText.length;
 							//console.log("wcounter: " + wcounter);
 										 for (index = 0; index < theOldText.length; index++) {
@@ -5067,26 +5071,27 @@ if (typeof jQuery != 'undefined') {
 						t.captionsText.html(track.entries.text[i]).attr('class', 'mejs-captions-text ' + (track.entries.times[i].identifier || ''));
 						t.captions.show().height(0);
 						for (x = 0; x < thePosIndexArray.length; x++){
-							counter++;
+							counterf++;
+							countert = counterf-lineLength;
+							console.log(thePosIndexArray[x]);
 							if (!startTime) {
 									  startTime = today.getTime();
-									  //console.log("Starttime: " + startTime);
+									  console.log("Starttime: " + startTime);
 							}
 							// Transforming into eyetribe coordinates
 							topInt = parseInt($(thePosIndexArray[x]).offset().top) + sidebarDiff;
 							widthInt = parseInt($(thePosIndexArray[x]).offset().left);
 							newx = widthInt + diffLeft;
 							newy = topInt + diffTop;
-							theFullArray[counter] = {
+							theFullArray[counterf] = {
 											  "subnum":i,
-											  "vidStart": vidStart,
 											  "wordAltered": thePosWordArray[x],
 											  "wordid": thePosIndexArray[x],
 											  "wordUnaltered": eyeTrackerWords[x],
 											  "alteredClass": alteredClasses[x],
 											  "wordshownat": track.entries.times[i].start,
 											  "starttime": startTime,
-											  "stoptime": startTime+duration,
+											  "stoptime": stopTime,
 											  "top": $(thePosIndexArray[x]).offset().top,
 											  "left": $(thePosIndexArray[x]).offset().left,
 											  "eyeTop": newy,
@@ -5094,16 +5099,25 @@ if (typeof jQuery != 'undefined') {
 											  "wordWidth": $(thePosIndexArray[x]).width() + 10,
 											  "wordHeight": $(thePosIndexArray[x]).height() + 6
 							};
-							
 							//console.log("again "+ theFullArray[counter].wordid);
-							doneFor[counter] = {
+							doneFor[counterf] = {
 					  					"id": i,
 										"done": 0
 				 			};
 							//console.log(doneFor[counter].done);
 							//console.log("Counter: "+counter);
+							console.log("The new one is done (has been displayed)");
+							console.log("f: "+counterf + " t: "+ countert);
 						}
-						
+						console.log("Its visible");
+						stopTime = today.getTime();
+						console.log(stopTime);
+						for (boo=0; boo<=lineLength; boo++){
+							theFullArray[counterf].stoptime = stopTime;
+							console.log(theFullArray[counterf].stoptime);
+							//countert++;
+						}
+								
 						return; // exit out if one is visible;
 					}
 				}
@@ -5112,7 +5126,7 @@ if (typeof jQuery != 'undefined') {
 				t.captions.hide();
 			}
 			
-			if (counter == wcounter && doneFor[counter].done != 1) {
+			if (counterf == wcounter && doneFor[counterf].done != 1) {
 				 //console.log("times1 "+doneFor[counter].done);
 				  var link = document.createElement("a"); 
 				  var done = 0;
@@ -5121,7 +5135,7 @@ if (typeof jQuery != 'undefined') {
 					  if (!csvData[index]){
 						  //console.log(index);
 						  //console.log("times2");
-						  csvData.push('"' + item.subnum + '","' + item.vidStart + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '", "' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
+						  csvData.push('"' + item.subnum + '","' + item.wordAltered + '","' + item.wordid  + '","' + item.wordUnaltered + '","' + item.alteredClass + '","' + item.wordshownat + '","' + item.starttime + '","' + item.stoptime + '", "' + item.top + '","' + item.left + '","' + item.eyeTop + '","' + item.eyeLeft + '","' + item.wordWidth + '","' + item.wordHeight +'"');
 				  		  //console.log(csvData[index]);
 						  //console.log(index + ","+item.wordid+","+ item.starttime + '","' + item.stoptime);
 					  }
