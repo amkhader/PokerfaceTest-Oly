@@ -3,7 +3,7 @@
 Hello, I only have four minutes
 
 2
-00:00:15,186 --> 00:00:18,927
+00:00:15,187 --> 00:00:18,927
 so I will try to tell you briefly about the last seven years
 
 3
